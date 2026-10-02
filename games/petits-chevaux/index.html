@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Petits Chevaux 🐴</title>
+<link rel="stylesheet" href="game.css">
+</head>
+<body>
+<main class="page">
+<a class="back" href="../../index.html">← Mini Games</a>
+<section class="hero"><div class="horse">🐴</div><div><p>MINI GAMES</p><h1>Petits Chevaux</h1></div></section>
+<div class="panel"><h2>Le plateau arrive !</h2><p>On va maintenant construire le vrai jeu : 4 chevaux par joueur, dé, déplacements, captures et arrivée. 🐴🎲</p><button id="soon" type="button">🎲 Lancer le prototype</button><div id="result" aria-live="polite"></div></div>
+</main>
+<script>
+const b=document.querySelector('#soon'),r=document.querySelector('#result');
+b.addEventListener('click',()=>{const n=1+Math.floor(Math.random()*6);r.textContent='Tu as fait '+n+' ! 🎲';});
+</script>
+</body>
+</html>
