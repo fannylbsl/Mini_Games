@@ -1,0 +1,37 @@
+:root{
+  --bg:#f5f3ff;
+  --ink:#25223a;
+  --muted:#77738d;
+  --purple:#6c4cff;
+  --pink:#ff5fa2;
+  --yellow:#ffd45c;
+  --card:#ffffff;
+  --shadow:0 12px 30px rgba(50,35,100,.12);
+}
+*{box-sizing:border-box}
+body{
+  margin:0; min-height:100vh; font-family:ui-rounded,"SF Pro Rounded","Arial Rounded MT Bold",system-ui,sans-serif;
+  color:var(--ink); background:radial-gradient(circle at 15% 0%,#ffe4f1 0 18%,transparent 40%),radial-gradient(circle at 100% 20%,#e3ddff 0 20%,transparent 45%),var(--bg);
+}
+.app{width:min(720px,100%);margin:0 auto;padding:28px 18px 36px}
+.hero{display:flex;align-items:center;gap:16px;margin:8px 0 26px}
+.logo{width:68px;height:68px;border-radius:22px;display:grid;place-items:center;background:var(--purple);font-size:34px;box-shadow:0 9px 0 #4931c4,0 16px 28px rgba(108,76,255,.25);transform:rotate(-4deg)}
+.eyebrow{margin:0 0 2px;font-size:11px;font-weight:900;letter-spacing:.12em;color:var(--purple)}
+h1{margin:0;font-size:clamp(34px,10vw,54px);line-height:1}
+.subtitle{margin:7px 0 0;color:var(--muted);font-weight:600}
+.games{display:grid;gap:14px}
+.game-card{display:flex;gap:15px;align-items:center;text-decoration:none;color:inherit;border:0;border-radius:25px;padding:17px;background:var(--card);box-shadow:var(--shadow);min-height:132px;transition:transform .16s ease,box-shadow .16s ease}
+.game-card.featured{background:linear-gradient(135deg,#fff 0%,#fff4a9 100%);border:2px solid rgba(108,76,255,.12)}
+.game-card:active{transform:scale(.98)}
+.card-emoji{flex:0 0 74px;width:74px;height:74px;border-radius:22px;display:grid;place-items:center;font-size:43px;background:#eee9ff}
+.featured .card-emoji{background:#ffd966}
+.card-content{min-width:0}
+.badge{display:inline-block;font-size:10px;font-weight:900;letter-spacing:.08em;color:#fff;background:var(--purple);padding:5px 8px;border-radius:8px}
+.badge.muted{background:#dedbe7;color:#6e6a7a}
+h2{margin:7px 0 3px;font-size:21px}
+.card-content p{margin:0;color:var(--muted);font-size:13px;line-height:1.35}
+.play{display:inline-block;margin-top:9px;color:var(--purple);font-size:13px;font-weight:900}
+.coming-soon{opacity:.78}
+footer{text-align:center;color:var(--muted);font-size:12px;font-weight:700;margin-top:22px}
+@media(min-width:600px){.games{grid-template-columns:1fr 1fr}.featured{grid-column:span 2}}
+@media(prefers-reduced-motion:reduce){.game-card{transition:none}}
