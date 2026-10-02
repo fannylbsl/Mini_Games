@@ -1,0 +1,11 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#09030a"><title>Hot Battle 🔥</title><link rel="stylesheet" href="game.css"></head>
+<body><main class="app">
+<header class="top"><a href="../../index.html" class="back">← Mini Games</a><span class="pill">18+ • COUPLE MODE</span></header>
+<section class="hero"><div class="spark">🔥</div><p class="eyebrow">BATAILLE NAVALE • AFTER DARK</p><h1>HOT <span>BATTLE</span></h1><p>Place ta flotte. Vise la sienne. Fais monter la température. 😈</p></section>
+<section class="setup" id="setup"><div class="panel"><h2>Choisissez vos noms</h2><div class="names"><label>Joueur 1<input id="p1Name" maxlength="14" value="Bébé 1"></label><label>Joueur 2<input id="p2Name" maxlength="14" value="Bébé 2"></label></div><button id="startBtn" class="hot-btn">🔥 LANCER LA NUIT 🔥</button><p class="tiny">Mode local à 2 joueurs.</p></div></section>
+<section class="game hidden" id="game"><div class="hud"><div><span class="mini">TOUR DE</span><strong id="turnName"></strong></div><div class="heat"><span>🌡️</span><strong id="heat">HOT</strong></div></div>
+<div class="boards"><div class="board-panel"><div class="board-title"><span id="myLabel"></span><small>TA FLOTTE</small></div><div id="myBoard" class="board"></div></div><div class="board-panel enemy"><div class="board-title"><span>🎯</span><small>SA ZONE</small></div><div id="enemyBoard" class="board"></div></div></div>
+<div class="fleet" id="fleet"></div><p class="status" id="status">Choisis une case à embraser…</p><button id="resetBtn" class="ghost-btn">↻ Recommencer</button></section>
+<div class="overlay hidden" id="overlay"><div class="win-card"><div class="win-icon">💋</div><p class="eyebrow">NUIT TERMINÉE</p><h2 id="winner"></h2><p id="winText"></p><button id="againBtn" class="hot-btn">🔥 REMETTRE ÇA</button></div></div>
+</main><script src="game.js"></script></body></html>
