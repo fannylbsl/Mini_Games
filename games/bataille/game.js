@@ -1,0 +1,15 @@
+const SIZE=6;
+const FLEET=[{name:"Toy XL",emoji:"🟣",len:3},{name:"Baguette",emoji:"💜",len:2},{name:"Boule",emoji:"💋",len:2},{name:"Menottes",emoji:"⛓️",len:1}];
+let players=[],boards=[],current=0,heat=0;
+const $=id=>document.getElementById(id);
+function emptyBoard(){return Array.from({length:SIZE},()=>Array(SIZE).fill(null))}
+function cellsForShip(r,c,len,dir){const a=[];for(let i=0;i<len;i++){const rr=r+(dir==="v"?i:0),cc=c+(dir==="h"?i:0);if(rr>=SIZE||cc>=SIZE)return null;a.push([rr,cc])}return a}
+function canPlace(b,cells){return cells&&cells.every(([r,c])=>!b[r][c])}
+function placeFleet(b){FLEET.forEach(ship=>{let placed=false;while(!placed){const dir=Math.random()<.5?"h":"v",r=Math.floor(Math.random()*SIZE),c=Math.floor(Math.random()*SIZE),cells=cellsForShip(r,c,ship.len,dir);if(canPlace(b,cells)){cells.forEach(([rr,cc])=>b[rr][cc]={ship:ship.name,emoji:ship.emoji,hit:false});placed=true}}})}
+function init(){players=[$("p1Name").value.trim()||"Bébé 1",$("p2Name").value.trim()||"Bébé 2"];boards=[emptyBoard(),emptyBoard()];boards.forEach(placeFleet);current=0;heat=0;$("setup").classList.add("hidden");$("game").classList.remove("hidden");$("overlay").classList.add("hidden");render()}
+function render(){renderBoard($("myBoard"),current,false);renderBoard($("enemyBoard"),1-current,true);$("myLabel").textContent="❤️ "+players[current];$("turnName").textContent=players[current];$("heat").textContent=heat<3?"HOT 🔥":heat<6?"VERY HOT 🥵":"INSANE 🌶️";$("fleet").innerHTML=FLEET.map(s=>s.emoji+" "+s.name+" • "+s.len).map(x=>"<span class='fleet-item'>"+x+"</span>").join("")}
+function renderBoard(el,owner,enemy){el.innerHTML="";boards[owner].forEach((row,r)=>row.forEach((v,c)=>{const d=document.createElement("div");d.className="cell";if(v&&v.hit)d.classList.add("hit");if(v==="miss")d.classList.add("miss");if(v&&v.hit)d.innerHTML="<span>🔥</span>";else if(v==="miss")d.innerHTML="<span>✦</span>";else if(!enemy&&v)d.innerHTML="<span class='ship'>"+v.emoji+"</span>";if(enemy&&!v)d.onclick=()=>fire(r,c);el.appendChild(d)}))}
+function fire(r,c){const b=boards[1-current],v=b[r][c];if(v==="miss"||(v&&v.hit))return;if(v){v.hit=true;heat++;$("status").textContent="🔥 TOUCHÉ… ça chauffe.";if(allSunk(b)){render();setTimeout(()=>win(players[current]),450);return}}else{b[r][c]="miss";$("status").textContent="💋 Raté… la nuit continue.";current=1-current;heat=Math.max(0,heat-1)}render();if(!v)setTimeout(()=>$("status").textContent="À toi de jouer, "+players[current]+" 😈",350)}
+function allSunk(b){return b.flat().filter(v=>v&&v!=="miss").every(v=>v.hit)}
+function win(name){$("winner").textContent=name+" GAGNE 🔥";$("winText").textContent="La flotte adverse est entièrement coulée. Quelle nuit… 😈";$("overlay").classList.remove("hidden")}
+$("startBtn").onclick=init;$("againBtn").onclick=init;$("resetBtn").onclick=()=>{$("setup").classList.remove("hidden");$("game").classList.add("hidden")};
