@@ -123,29 +123,47 @@ function roll(){
 async function playTurn(n){
   const p=players[current];
 
-  // Un 6 permet de sortir un nouveau pion, même si un pion du joueur
-  // occupe déjà la première case : les deux peuvent partager la case.
-  const available=p.pawns.findIndex(x=>x<0 && n===6);
-  const movable=p.pawns.findIndex(x=>x>=0 && x+n<=path.length-1);
+  // On ne peut sortir un nouveau pion que si la première case est libre.
+  // S'il y a plusieurs coups possibles, le joueur choisit son pion.
+  const startOccupied=p.pawns.some(x=>x===0);
+  const canExit=n===6 && !startOccupied && p.pawns.some(x=>x<0);
+  const movableIndexes=p.pawns
+    .map((x,idx)=>x>=0 && x+n<=path.length-1 ? idx : -1)
+    .filter(idx=>idx>=0);
 
-  if(available<0 && movable<0){
+  const options=[];
+  if(canExit) options.push({idx:p.pawns.findIndex(x=>x<0),exit:true});
+  movableIndexes.forEach(idx=>options.push({idx,exit:false}));
+
+  if(options.length===0){
     setStatus(n===6?'Même le destin refuse... 😈':'Aucun mouvement possible.');
     finishTurn(n===6);
     return;
   }
 
-  const idx=available>=0?available:movable;
+  let choice;
+  if(options.length===1){
+    choice=options[0];
+  }else{
+    choice=await choosePawn(options,n);
+    if(!choice){
+      rolling=false;
+      rollBtn.disabled=false;
+      setStatus('Choisis une créature à déplacer.');
+      return;
+    }
+  }
+
+  const idx=choice.idx;
   const oldPos=p.pawns[idx];
 
-  // Sortie du cimetière : le pion arrive sur la première case.
-  if(oldPos<0){
+  if(choice.exit){
     p.pawns[idx]=0;
     renderPieces();
     animateCurrentPiece(current,idx);
     setStatus('🩸 La créature sort du cimetière !');
     await sleep(380);
   }else{
-    // Déplacement case par case pour voir le pion passer par chaque case.
     for(let step=1;step<=n;step++){
       p.pawns[idx]=oldPos+step;
       renderPieces();
@@ -170,6 +188,32 @@ async function playTurn(n){
   }
 
   finishTurn(n===6);
+}
+
+
+async function choosePawn(options,n){
+  setStatus('☠️ Choisis le pion à déplacer...');
+  const buttons=[...document.querySelectorAll('.piece')].filter((el)=>{
+    return el.classList.contains(players[current].cls);
+  });
+
+  buttons.forEach((el,localIndex)=>{
+    el.classList.remove('selectable');
+    el.onclick=null;
+  });
+
+  const promises=options.map(option=>new Promise(resolve=>{
+    const el=buttons[option.idx];
+    if(!el){resolve(null);return;}
+    el.classList.add('selectable');
+    const handler=()=>{
+      buttons.forEach(b=>{b.classList.remove('selectable');b.onclick=null;});
+      resolve(option);
+    };
+    el.onclick=handler;
+  }));
+
+  return Promise.race(promises);
 }
 
 function capture(abs,pi){
