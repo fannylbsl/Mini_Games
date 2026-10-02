@@ -2,19 +2,58 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Petits Chevaux 🐴</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b0910">
+<title>Petits Chevaux — Blood & Bones ☠️</title>
 <link rel="stylesheet" href="game.css">
 </head>
 <body>
+<div class="fog"></div>
 <main class="page">
-<a class="back" href="../../index.html">← Mini Games</a>
-<section class="hero"><div class="horse">🐴</div><div><p>MINI GAMES</p><h1>Petits Chevaux</h1></div></section>
-<div class="panel"><h2>Le plateau arrive !</h2><p>On va maintenant construire le vrai jeu : 4 chevaux par joueur, dé, déplacements, captures et arrivée. 🐴🎲</p><button id="soon" type="button">🎲 Lancer le prototype</button><div id="result" aria-live="polite"></div></div>
-</main>
-<script>
-const b=document.querySelector('#soon'),r=document.querySelector('#result');
-b.addEventListener('click',()=>{const n=1+Math.floor(Math.random()*6);r.textContent='Tu as fait '+n+' ! 🎲';});
-</script>
+<a class="back" href="../../index.html">← NIGHTMARE ARCADE</a>
+
+<header class="hero">
+  <div class="skull">☠️</div>
+  <div><p>MINI GAMES • NIGHTMARE EDITION</p><h1>Blood & Bones</h1></div>
+</header>
+
+<section class="hud">
+  <div><span>Tour</span><strong id="turnName">🩸 Joueur 1</strong></div>
+  <div class="status" id="status">Lance le dé pour commencer...</div>
+</section>
+
+<section class="board-wrap">
+  <div id="board" class="board" aria-label="Plateau de Petits Chevaux"></div>
+  <div class="blood blood-a">🩸</div><div class="blood blood-b">🩸</div>
+</section>
+
+<section class="controls">
+  <div class="dice-box">
+    <div id="dice" class="dice" aria-live="polite">🎲</div>
+    <button id="roll" class="roll">LANCER LE DÉ</button>
+  </div>
+  <div class="legend">
+    <span><i class="dot p1"></i> Joueur 1</span>
+    <span><i class="dot p2"></i> Joueur 2</span>
+  </div>
+</section>
+
+<section class="rules">
+  <h2>☠️ Règles de la nuit</h2>
+  <p>Fais <b>6</b> pour sortir un cheval. Avance tes créatures sur la piste. Si tu atterris sur un adversaire, <b>BOUM 🩸</b> : il retourne à son cimetière.</p>
+</section>
+
+<div id="win" class="win hidden">
+  <div class="win-card">
+    <div class="win-skull">💀</div>
+    <p>LA NUIT APPARTIENT À...</p>
+    <h2 id="winner">Joueur 1</h2>
+    <div class="confetti">🦴 🩸 🦴 🩸 🦴</div>
+    <button id="again">☠️ REJOUER</button>
+    <a href="../../index.html">Retour à l'arcade</a>
+  </div>
+</div>
+
+<script src="game.js"></script>
 </body>
 </html>
